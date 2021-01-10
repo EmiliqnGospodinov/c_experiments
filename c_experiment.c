@@ -21,6 +21,7 @@ void read(char input_path[100]){
 	char file_text[1000];
 	fscanf(fptr, "%s", file_text);
 	printf("%s", file_text);
+
 	fclose(fptr);
 }
 
@@ -29,24 +30,32 @@ void write(char input_file[100]){
 
 	FILE *fptr;
 	fptr = fopen(input_file, "w");
-	if(fptr == NULL){
-		printf("Error opening file!\n");
-		return;
-	}
+
 	printf("What to type in the file?\n");
 	scanf("%s", input_content);
 	fprintf(fptr, "%s", input_content);
+
 	fclose(fptr);
 
 }
 
+#define BUFFER_SIZE 1000
 void append(char input_file[100]){
+	char input_content[BUFFER_SIZE];
 	FILE *fptr;
-	fptr = fopen(input_file, "wr");
-	if(fptr == NULL){
-		printf("File doesn't exist!\n");
-		return;
-	}
+	fptr = fopen(input_file, "a+");
+
+	printf("What to type in the file?\n");
+	scanf("%s", input_content);
+	fputs(input_content, fptr);
+
+	char file_text[1000];
+	fgets(file_text, BUFFER_SIZE, fptr);
+	
+	printf("Content appended! File now contains:\n");
+	read(input_file);
+
+	fclose(fptr);
 
 }
 
@@ -58,8 +67,7 @@ void append(char input_file[100]){
     return result;
 }*/
 
-int main(void)
-{
+int main(void){
 	char command[5] = {};
 	while(1){
 		printf("Choose what to do with a file: \"r\" to read; \"w\" write \"a\" to append; \"c\" to close the program\n");
